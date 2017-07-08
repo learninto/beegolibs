@@ -1,73 +1,220 @@
+// Copyright 2014 beego Author. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package httplib
 
 import (
-	"encoding/json"
-	"github.com/siddontang/go/log"
+	//"io/ioutil"
+	//"os"
+	//"strings"
 	"testing"
+	//"time"
 )
 
-type TestGetIo struct {
-	Status int64  `json:"status"`
-	Data   string `json:"data"`
-}
+//func TestResponse(t *testing.T) {
+//	req := Get("http://httpbin.org/get")
+//	resp, err := req.Response()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(resp)
+//}
 
 func TestGet(t *testing.T) {
-	body, terr := Get("http://m.sh.189.cn/service/node/crypto?data=oKXUCj1MOddnp-sCpGi1J1dg3TyM,abc&key=wechat-mobile-201604&type=0")
-	if terr != nil {
-
+	b, err := Get("http://httpbin.org/get")
+	if err != nil {
+		t.Fatal(err)
 	}
-	//{"status":200,"data":"9abd60a5334646b5498a490da70972b6c22902ddcad30fc929a1411f5b2360c6,532efc805a8aa7a31b84640bf05ec726"}
+	t.Log(b)
 
-	var tji TestGetIo
-	json.Unmarshal(body, &tji)
-	jso, _ := json.Marshal(&tji)
-	log.Info("TestGet Response" + string(jso))
+	if string(b) == "" {
+		t.Fatal("request data not match")
+	}
 }
 
-//func TestPost(t *testing.T) {
-//	var PayParams map[string]interface{}
-//	PayParams = make(map[string]interface{});
-//	PayParams["money"] = "5"
-//	PayParams["number"] = "17721021494"
-//	PayParams["bpnum"] = ""
-//	PayParams["payid"] = ""
-//	PayParams["openid"] = "oKXUCj1MOddnp-sCpGi1J1dg3TyM"
-//	PayParams["from"] = "disney"
-//	PayParams["channel"] = "0"
-//	PayParams["note"] = "迪士尼活动"
-//	body, terr := Post("http://httpbin.org/post", PayParams);
-//	if terr != nil {
 //
+//func TestSimplePost(t *testing.T) {
+//	v := "smallfish"
+//	req := Post("http://httpbin.org/post")
+//	req.Param("username", v)
+//
+//	str, err := req.String()
+//	if err != nil {
+//		t.Fatal(err)
 //	}
-//	fmt.Println("Post 请求结果" + string(body))
+//	t.Log(str)
+//
+//	n := strings.Index(str, v)
+//	if n == -1 {
+//		t.Fatal(v + " not found in post")
+//	}
 //}
 //
-//func TestPostForm(t *testing.T) {
-//	var PayParams map[string]interface{}
-//	PayParams = make(map[string]interface{});
-//	PayParams["mobile"] = "17721021494"
-//	PayParams["channel"] = "2"
-//	PayParams["desKey"] = "dzqd-wt-flow"
+////func TestPostFile(t *testing.T) {
+////	v := "smallfish"
+////	req := Post("http://httpbin.org/post")
+////	req.Debug(true)
+////	req.Param("username", v)
+////	req.PostFile("uploadfile", "httplib_test.go")
 //
-//	body, terr := PostForm("http://172.16.50.138:8091/csb/1.0/Encrypt", PayParams);
-//	if terr != nil {
+////	str, err := req.String()
+////	if err != nil {
+////		t.Fatal(err)
+////	}
+////	t.Log(str)
 //
+////	n := strings.Index(str, v)
+////	if n == -1 {
+////		t.Fatal(v + " not found in post")
+////	}
+////}
+//
+//func TestSimplePut(t *testing.T) {
+//	str, err := Put("http://httpbin.org/put").String()
+//	if err != nil {
+//		t.Fatal(err)
 //	}
-//	fmt.Println("PostForm 请求结果" + string(body))
+//	t.Log(str)
 //}
-
-//func TestPut(t *testing.T) {
-//	var PayParams map[string]interface{}
-//	PayParams = make(map[string]interface{})
-//	PayParams["contact_id_card"] = "1111"
-//	PayParams["contact_name"] = "111"
-//	PayParams["contact_phone"] = "111"
-//	PayParams["into_park_time"] = "11"
 //
-//	body, terr := Put("http://httpbin.org/put", PayParams)
-//	//body, terr := Put("http://172.16.50.141:8080/v1/disney_pay/draw_prize/123", PayParams);
-//	if terr != nil {
-//
+//func TestSimpleDelete(t *testing.T) {
+//	str, err := Delete("http://httpbin.org/delete").String()
+//	if err != nil {
+//		t.Fatal(err)
 //	}
-//	fmt.Println("put 请求结果" + string(body))
+//	t.Log(str)
+//}
+//
+//func TestSimpleDeleteParam(t *testing.T) {
+//	str, err := Delete("http://httpbin.org/delete").Param("key", "val").String()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(str)
+//}
+//
+//func TestWithCookie(t *testing.T) {
+//	v := "smallfish"
+//	str, err := Get("http://httpbin.org/cookies/set?k1=" + v).SetEnableCookie(true).String()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(str)
+//
+//	str, err = Get("http://httpbin.org/cookies").SetEnableCookie(true).String()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(str)
+//
+//	n := strings.Index(str, v)
+//	if n == -1 {
+//		t.Fatal(v + " not found in cookie")
+//	}
+//}
+//
+//func TestWithBasicAuth(t *testing.T) {
+//	str, err := Get("http://httpbin.org/basic-auth/user/passwd").SetBasicAuth("user", "passwd").String()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(str)
+//	n := strings.Index(str, "authenticated")
+//	if n == -1 {
+//		t.Fatal("authenticated not found in response")
+//	}
+//}
+//
+//func TestWithUserAgent(t *testing.T) {
+//	v := "beego"
+//	str, err := Get("http://httpbin.org/headers").SetUserAgent(v).String()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(str)
+//
+//	n := strings.Index(str, v)
+//	if n == -1 {
+//		t.Fatal(v + " not found in user-agent")
+//	}
+//}
+//
+//func TestWithSetting(t *testing.T) {
+//	v := "beego"
+//	var setting BeegoHTTPSettings
+//	setting.EnableCookie = true
+//	setting.UserAgent = v
+//	setting.Transport = nil
+//	setting.ReadWriteTimeout = 5 * time.Second
+//	SetDefaultSetting(setting)
+//
+//	str, err := Get("http://httpbin.org/get").String()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(str)
+//
+//	n := strings.Index(str, v)
+//	if n == -1 {
+//		t.Fatal(v + " not found in user-agent")
+//	}
+//}
+//
+//func TestToJson(t *testing.T) {
+//	req := Get("http://httpbin.org/ip")
+//	resp, err := req.Response()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(resp)
+//
+//	// httpbin will return http remote addr
+//	type IP struct {
+//		Origin string `json:"origin"`
+//	}
+//	var ip IP
+//	err = req.ToJSON(&ip)
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(ip.Origin)
+//
+//	if n := strings.Count(ip.Origin, "."); n != 3 {
+//		t.Fatal("response is not valid ip")
+//	}
+//}
+//
+//func TestToFile(t *testing.T) {
+//	f := "beego_testfile"
+//	req := Get("http://httpbin.org/ip")
+//	err := req.ToFile(f)
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	defer os.Remove(f)
+//	b, err := ioutil.ReadFile(f)
+//	if n := strings.Index(string(b), "origin"); n == -1 {
+//		t.Fatal(err)
+//	}
+//}
+//
+//func TestHeader(t *testing.T) {
+//	req := Get("http://httpbin.org/headers")
+//	req.Header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36")
+//	str, err := req.String()
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	t.Log(str)
 //}
