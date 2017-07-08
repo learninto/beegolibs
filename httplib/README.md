@@ -12,4 +12,8 @@
 ## GET
 ```
     data,err := httplib.Get("req url")
+    
+    // 转换成自己的结构体
+    var resData = 你的结构体
+	json.Unmarshal(b, &resData)
 ```
