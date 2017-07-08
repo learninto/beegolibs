@@ -18,43 +18,44 @@ func init() {
 	httpConnectTimeout = time.Duration(hct) * time.Second
 	httpReadWriteTimeout = time.Duration(hrwt) * time.Second
 	// TODO 运行 go test  取消 21行和22行的注释
-	//httpConnectTimeout = time.Duration(5) * time.Second
-	//httpReadWriteTimeout = time.Duration(5) * time.Second
+	httpConnectTimeout = time.Duration(5) * time.Second
+	httpReadWriteTimeout = time.Duration(5) * time.Second
 
 }
 
 func Get(reqUrl string) ([]byte, error) {
 	logs.Info("request-get-url: " + reqUrl)
-	data, err := httplib.Get(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).Bytes()
+
+	b, err := httplib.Get(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).Bytes()
+
 	logs.Info("request-get-error: ", err)
-	logs.Info("request-get-data: " + string(data))
-	return data, err
+	logs.Info("request-get-data: " + string(b))
+
+	return b, err
 }
 
 func Post(reqUrl string, params interface{}) ([]byte, error) {
 	logs.Info("request-post-url: " + reqUrl)
-	logInfo("request-post-params: ", params)
+	log_params_str, _ := json.Marshal(params)
+	logs.Info("request-post-params: ", string(log_params_str))
 
-	req, err := httplib.Post(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).JSONBody(params)
-	data, err := req.Bytes()
-	logs.Info("request-post-data: "+string(data), err)
-	return data, err
+	req, _ := httplib.Post(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).JSONBody(params)
+	b, err := req.Bytes()
+
+	logs.Info("request-get-error: ", err)
+	logs.Info("request-get-data: " + string(b))
+	return b, err
 }
 
-func Put(reqUrl string, params map[string]interface{}) (content []byte, err error) {
+func Put(reqUrl string, params interface{}) ([]byte, error) {
 	logs.Info("request-put-url: " + reqUrl)
-	logs.Info("request-put-params: ", params)
-	//start := time.Now()
-	req, err := httplib.Put(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).JSONBody(params)
-	data, err := req.Bytes()
-	logs.Info("request-put-data: "+string(data), err)
-	//end := time.Now()
-	//delta := end.Sub(start)
-	//logs.Info("request-put-response-time:", delta)
-	return data, err
-}
+	log_params_str, _ := json.Marshal(params)
+	logs.Info("request-put-params: " + string(log_params_str))
 
-func logInfo(msg string, params interface{}) {
-	logParams, _ := json.Marshal(params)
-	logs.Info(msg, string(logParams))
+	req, _ := httplib.Put(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).JSONBody(params)
+	b, err := req.Bytes()
+
+	logs.Info("request-get-error: ", err)
+	logs.Info("request-get-data: " + string(b))
+	return b, err
 }
