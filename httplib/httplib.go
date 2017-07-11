@@ -42,8 +42,8 @@ func Post(reqUrl string, params interface{}) ([]byte, error) {
 	req, _ := httplib.Post(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).JSONBody(params)
 	b, err := req.Bytes()
 
-	logs.Info("request-get-error: ", err)
-	logs.Info("request-get-data: " + string(b))
+	logs.Info("request-post-error: ", err)
+	logs.Info("request-post-data: " + string(b))
 	return b, err
 }
 
@@ -55,7 +55,7 @@ func Put(reqUrl string, params interface{}) ([]byte, error) {
 	req, _ := httplib.Put(reqUrl).SetTimeout(httpConnectTimeout, httpReadWriteTimeout).JSONBody(params)
 	b, err := req.Bytes()
 
-	logs.Info("request-get-error: ", err)
-	logs.Info("request-get-data: " + string(b))
+	logs.Info("request-put-error: ", err)
+	logs.Info("request-put-data: " + string(b))
 	return b, err
 }
