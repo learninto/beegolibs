@@ -2,10 +2,10 @@
 
 ## 导入包
 ```
-    go get github.com/learninton/golibs/httplib
+    go get github.com/learninton/beegolibs/httplib
     
     import (
-	    "github.com/learninton/golibs/httplib"
+	    "github.com/learninton/beegolibs/httplib"
 	)
 ```
 
