@@ -32,8 +32,8 @@ func (this *RestlibController) SuccessList(list interface{}, sum_count int64) {
 //{ "error_code": 错误码, "error_msg": "错误消息"}
 func (this *RestlibController) Error(msg string, code int) {
 	data := make(map[string]interface{})
-	data["error_code"] = code
-	data["error_msg"] = msg
+	data["errcode"] = code
+	data["errmsg"] = msg
 	this.Data["json"] = data
 	this.ServeJSON()
 	this.StopRun()
