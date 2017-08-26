@@ -18,8 +18,8 @@ func init() {
 	httpConnectTimeout = time.Duration(hct) * time.Second
 	httpReadWriteTimeout = time.Duration(hrwt) * time.Second
 	// TODO 运行 go test  取消 21行和22行的注释
-	httpConnectTimeout = time.Duration(5) * time.Second
-	httpReadWriteTimeout = time.Duration(5) * time.Second
+	//httpConnectTimeout = time.Duration(5) * time.Second
+	//httpReadWriteTimeout = time.Duration(5) * time.Second
 
 }
 
